@@ -2,11 +2,12 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import useRefreshToken from "../hooks/useRefreshToken";
 // import useAuth from "../hooks/useAuth";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSelector } from "react-redux";
-import { selectCurrentToken, setCredentials } from "../app/slices/authSlice";
-import { refreshApiSlice } from "../api/endpoints/auth/refresh.api";
-import { useAppDispatch } from "../app/store";
+import { setCredentials } from "@/app/slices/authSlice";
+import { refreshSlice } from "@/api/endpoints/auth/refresh.api";
+import { useAppDispatch } from "@/app/store";
+import { selectCurrentToken } from "@/app/slices/selectors";
 // import useRefreshToken from "../hooks/useRefreshToken";
 // import { useRefreshQuery } from "../features/auth/refreshApiSlice";
 
@@ -18,7 +19,7 @@ const PersistLogin = () => {
    // const { auth } = useAuth();
    const token = useSelector(selectCurrentToken)
    const [persist] = useLocalStorage("persist", false);
-   const [trigger ] = refreshApiSlice.endpoints.refresh.useLazyQuery();
+   const [trigger ] = refreshSlice.endpoints.refresh.useLazyQuery();
    const dispatch= useAppDispatch();
    const navigate = useNavigate();
 

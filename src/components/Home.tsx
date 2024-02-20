@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../app/slices/authSlice";
 import { useAppDispatch } from "../app/store";
-import { logoutApiSlice } from "../api/endpoints/auth/logout.api";
+import { logoutSlice } from "../api/endpoints/auth/logout.api";
 // import useLogout from "../hooks/useLogout"; 
 
 const Home: FC = () => { 
@@ -13,7 +13,7 @@ const Home: FC = () => {
 
    const signOut = async () => {
       // await logout();
-      await dispatch(logoutApiSlice.endpoints.logout.initiate()).unwrap();
+      await dispatch(logoutSlice.endpoints.logout.initiate()).unwrap();
       // trigger();
       dispatch(setCredentials({roles: [], accessToken: null}))
       navigate("/linkpage");

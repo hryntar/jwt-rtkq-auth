@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 // import useAuth from "../hooks/useAuth";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useSelector } from "react-redux";
-import { selectCurrentToken, setCredentials } from "../features/auth/authSlice";
-import { refreshApiSlice } from "../features/auth/refreshApiSlice";
-import { useAppDispatch } from "../api/store";
+import { selectCurrentToken, setCredentials } from "../app/slices/authSlice";
+import { refreshApiSlice } from "../api/endpoints/auth/refresh.api";
+import { useAppDispatch } from "../app/store";
 // import useRefreshToken from "../hooks/useRefreshToken";
 // import { useRefreshQuery } from "../features/auth/refreshApiSlice";
 

@@ -5,9 +5,9 @@ import { FC, useRef, useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../hooks/useInput";
 import useToggle from "../hooks/useToggle";
-import { setCredentials } from "../features/auth/authSlice";
-import { useLoginMutation } from "../features/auth/authApiSlice";
-import { useAppDispatch } from "../api/store";
+import { setCredentials } from "../app/slices/authSlice";
+import { useLoginMutation } from "../api/endpoints/auth/login.api";
+import { useAppDispatch } from "../app/store";
 
 // const LOGIN_URL = "/login/auth";
 // const LOGIN_URL = "/login/auth";

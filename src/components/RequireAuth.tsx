@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, Navigate, Outlet} from "react-router-dom";
-import { RootState } from "../api/store";
+import { RootState } from "../app/store";
 // import useAuth from "../hooks/useAuth";
 
 const RequireAuth: FC<{allowedRoles: number[]}> = ({allowedRoles}) => {

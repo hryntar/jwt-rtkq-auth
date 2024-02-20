@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setCredentials } from "../features/auth/authSlice";
-import { useAppDispatch } from "../api/store";
-import { logoutApiSlice } from "../features/auth/logoutApiSlice";
+import { setCredentials } from "../app/slices/authSlice";
+import { useAppDispatch } from "../app/store";
+import { logoutApiSlice } from "../api/endpoints/auth/logout.api";
 // import useLogout from "../hooks/useLogout"; 
 
 const Home: FC = () => { 

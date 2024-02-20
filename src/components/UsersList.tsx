@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "./usersApiSlice";
+import { useGetUsersQuery } from "@/api/endpoints/admin/allUsers.api";
 
 const UsersList = () => {
 

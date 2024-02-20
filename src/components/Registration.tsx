@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, FC } from "react";
 
 // import axios from "../api/axios";
 import { Link } from "react-router-dom";
-import { useRegisterMutation } from "../features/auth/registerApiSlice";
+import { useRegisterMutation } from "../api/endpoints/auth/register.api";
 // import { setCredentials } from "../features/auth/authSlice";
 // import { useAppDispatch } from "../api/store";
 

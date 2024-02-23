@@ -1,33 +1,34 @@
 import { FC, useRef, useEffect, useState } from "react";
-// import axios from "../api/axios";
-// import { AxiosError } from "axios";
-// import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import useInput from "../hooks/useInput";
-import useToggle from "../hooks/useToggle";
-import { setCredentials } from "../app/slices/authSlice";
-import { useLoginMutation } from "../api/endpoints/auth/login.api";
-import { useAppDispatch } from "../app/store";
+import useInput from "@/hooks/useInput";
+import useToggle from "@/hooks/useToggle";
+import { setCredentials } from "@/app/slices/authSlice";
+import { useLoginMutation } from "@/api/endpoints/auth/login.api";
+import { useAppDispatch } from "@/app/store";
 
-// const LOGIN_URL = "/login/auth";
-// const LOGIN_URL = "/login/auth";
+import { Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
+
+import { EyeFilledIcon } from "@/components/icons/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/icons/EyeSlashFilledIcon";
 
 const Login: FC = () => {
-   // const { setAuth } = useAuth(); 
-   const [login, {isLoading}] = useLoginMutation();
    const dispatch = useAppDispatch();
-
    const navigate = useNavigate();
    const location = useLocation();
    const from: string = location.state?.from?.pathname || "/";
 
+   const [login, { isLoading }] = useLoginMutation();
+
    const userRef = useRef<HTMLInputElement>(null);
    const errRef = useRef<HTMLInputElement>(null);
 
-   const [user, resetUser, userAttribs] = useInput("user", "");
    const [pwd, setPwd] = useState("");
    const [errMsg, setErrMsg] = useState("");
+   const [user, resetUser, userAttribs] = useInput("user", "");
    const [check, toggleCheck] = useToggle("persist", false);
+   const [isVisible, setIsVisible] = useState(false);
 
    useEffect(() => {
       userRef.current?.focus();
@@ -38,92 +39,89 @@ const Login: FC = () => {
    }, [user, pwd]);
 
    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault() 
+      e.preventDefault();
       try {
-          const userData = await login({ user, pwd }).unwrap()
-         //  dispatch(setCredentials({ ...userData, user }))
-          dispatch(setCredentials({ ...userData}))
-          resetUser('')
-          setPwd('')
-          navigate(from, { replace: true });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         const userData = await login({ user, pwd }).unwrap();
+         dispatch(setCredentials({ ...userData }));
+         resetUser("");
+         setPwd("");
+         navigate(from, { replace: true });
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-          if (!err?.originalStatus) {
-              // isLoading: true until timeout occurs
-              setErrMsg('No Server Response');
-          } else if (err.originalStatus === 400) {
-              setErrMsg('Missing Username or Password');
-          } else if (err.originalStatus === 401) {
-              setErrMsg('Unauthorized');
-          } else {
-              setErrMsg('Login Failed');
-          }
-          errRef.current?.focus();
+         if (!err?.originalStatus) {
+            setErrMsg("No Server Response");
+         } else if (err.originalStatus === 400) {
+            setErrMsg("Missing Username or Password");
+         } else if (err.originalStatus === 401) {
+            setErrMsg("Incorrect login or password");
+         } else {
+            setErrMsg("Login Failed");
+         }
+         errRef.current?.focus();
       }
-  }
-
-   // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-   //    event.preventDefault();
-   //    try {
-   //       const response = await axios.post(LOGIN_URL, JSON.stringify({ user, pwd }), {
-   //          headers: { "Content-Type": "application/json" },
-   //          withCredentials: true,
-   //       }); 
-   //       console.log(JSON.stringify(response?.data));
-   //       const accessToken = response?.data?.accessToken;
-   //       const roles = response?.data?.roles;
-   //       // setCredentials({ user, pwd, roles, accessToken });
-   //       setCredentials({ roles, accessToken });
-   //       // setUser("");
-   //       resetUser("");
-   //       setPwd("");
-   //       navigate(from, { replace: true });
-   //    } catch (error) {
-   //       const axiosError = error as AxiosError;
-   //       if (!axiosError?.response) {
-   //          setErrMsg("No server response");
-   //       } else if (axiosError.response?.status === 400) {
-   //          setErrMsg("Missing username or password");
-   //       } else if (axiosError.response?.status === 401) {
-   //          setErrMsg("Unauthorized");
-   //       } else {
-   //          setErrMsg("Something went wrong(. Try later");
-   //       }
-   //       errRef.current?.focus();
-   //       console.error(axiosError);
-   //    }
-   // };
+   };
 
    return (
       <>
-         {isLoading ? <p>Loading...</p> : (
-         <section>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
-               {errMsg}
-            </p>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-               <label htmlFor="username">Username:</label>
-               <input type="text" id="username" ref={userRef} autoComplete="off" {...userAttribs} required />
-   
-               <label htmlFor="password">Password:</label>
-               <input type="password" id="password" autoComplete="off" onChange={(e) => setPwd(e.target.value)} value={pwd} required />
-   
-               <button type="submit">Sign In</button>
-               <div className="persistCheck">
-                  <input type="checkbox" id="persist" onChange={toggleCheck} checked={check} />
-                  <label htmlFor="persist">Trust this device</label>
-               </div>
+         <section className="grid p-10  border-1 drop-shadow-2xl shadow-3xl border-primary rounded-3xl backdrop-opacity-20 backdrop-blur-[100px] ">
+            <h1 className="font-bold text-primary md:text-3xl text-xl text-center mb-7">
+               Sign <span className="text-foreground">In</span>
+            </h1>
+            <form className=" grid gap-y-2 w-[400px]" onSubmit={handleSubmit}>
+               <Input
+                  isInvalid={errMsg ? true : false}
+                  errorMessage={errMsg}
+                  size="lg"
+                  type="text"
+                  label="Username"
+                  variant="underlined"
+                  color="primary"
+                  ref={userRef}
+                  autoComplete="off"
+                  {...userAttribs}
+                  isRequired
+                  classNames={{ label: "after:content-['']" }}
+               />
+
+               <Input
+                  isInvalid={errMsg ? true : false}
+                  errorMessage={errMsg}
+                  size="lg"
+                  type={isVisible ? "text" : "password"}
+                  label="Password"
+                  variant="underlined"
+                  color="primary"
+                  autoComplete="off"
+                  onChange={(e) => setPwd(e.target.value)}
+                  value={pwd}
+                  isRequired
+                  classNames={{ label: "after:content-['']" }}
+                  endContent={
+                     <button className="focus:outline-none" type="button" onClick={() => setIsVisible(!isVisible)}>
+                        {isVisible ? (
+                           <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        ) : (
+                           <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                        )}
+                     </button>
+                  }
+               />
+
+               <Checkbox className="mt-1 mb-[100px]" onChange={toggleCheck} isSelected={check}>
+                  <span className="text-sm">Keep me logged in</span>
+               </Checkbox>
+
+               <Button color="primary" fullWidth isLoading={isLoading} variant="ghost" size="lg" radius="lg" type="submit" className="font-semibold">
+                  Sign In
+               </Button>
             </form>
-            <p>
+            <div className="text-sm mt-10">
                Don't have an account?
-               <br />
-               <span className="line">
-                  <Link to="/register">Sign Up</Link>
+               <span className="text-primary font-semibold">
+                  <Link to="/register"> Sign Up</Link>
                </span>
-            </p>
+            </div>
          </section>
-         )}
       </>
    );
 };

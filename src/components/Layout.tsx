@@ -4,7 +4,7 @@ import { FC } from "react";
 const Layout: FC = () => {
 
    return (
-      <main className="h-[100vh] flex items-center justify-center"> 
+      <main className="h-[100vh] flex items-center justify-center px-3.5"> 
          <Outlet />
       </main>
    );

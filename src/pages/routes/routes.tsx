@@ -1,15 +1,15 @@
-import Admin from "@/components/Admin";
-import Editor from "@/components/Editor";
-import Home from "@/components/Home";
+import Admin from "@/pages/Admin";
+import Editor from "@/pages/Editor";
+import Home from "@/pages/Home";
 import Layout from "@/components/Layout";
-import LinkPage from "@/components/LinkPage";
-import Login from "@/components/Login";
-import Lounge from "@/components/Lounge";
-import Missing from "@/components/Missing";
+import LinkPage from "@/pages/LinkPage";
+import Login from "@/pages/Login";
+import Lounge from "@/pages/Lounge";
+import Missing from "@/pages/Missing";
 import PersistLogin from "@/components/PersistLogin";
-import Registration from "@/components/Registration";
+import Registration from "@/pages/Registration";
 import RequireAuth from "@/components/RequireAuth";
-import Unauthorized from "@/components/Unauthorized";
+import Unauthorized from "@/pages/Unauthorized";
 import { Role } from "@/types/roles.enum";
 import { Route } from "react-router-dom";
 

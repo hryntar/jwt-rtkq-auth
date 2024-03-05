@@ -12,6 +12,7 @@ import { Checkbox } from "@nextui-org/react";
 
 import { EyeFilledIcon } from "@/components/icons/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "@/components/icons/EyeSlashFilledIcon";
+import { btnAttribs, inputAttribs } from "@/utils/defaultAttribs";
 
 const Login: FC = () => {
    const dispatch = useAppDispatch();
@@ -19,16 +20,16 @@ const Login: FC = () => {
    const location = useLocation();
    const from: string = location.state?.from?.pathname || "/";
 
-   const [login, { isLoading }] = useLoginMutation();
-
    const userRef = useRef<HTMLInputElement>(null);
    const errRef = useRef<HTMLInputElement>(null);
-
+   
    const [pwd, setPwd] = useState("");
    const [errMsg, setErrMsg] = useState("");
    const [user, resetUser, userAttribs] = useInput("user", "");
    const [check, toggleCheck] = useToggle("persist", false);
    const [isVisible, setIsVisible] = useState(false);
+   
+   const [login, { isLoading }] = useLoginMutation();
 
    useEffect(() => {
       userRef.current?.focus();
@@ -63,38 +64,29 @@ const Login: FC = () => {
 
    return (
       <>
-         <section className="grid p-10  border-1 drop-shadow-2xl shadow-3xl border-primary rounded-3xl backdrop-opacity-20 backdrop-blur-[100px] ">
-            <h1 className="font-bold text-primary md:text-3xl text-xl text-center mb-7">
+         <section className=" sm:min-w-[450px] max-sm:w-full p-10 border-1 drop-shadow-2xl shadow-3xl border-primary rounded-3xl backdrop-opacity-20 backdrop-blur-[100px] ">
+            <h1 className="font-bold text-primary text-3xl text-center mb-7">
                Sign <span className="text-foreground">In</span>
             </h1>
-            <form className=" grid gap-y-2 w-[400px]" onSubmit={handleSubmit}>
+            <form className="grid gap-y-2 " onSubmit={handleSubmit}>
                <Input
+                  {...inputAttribs}
                   isInvalid={errMsg ? true : false}
                   errorMessage={errMsg}
-                  size="lg"
-                  type="text"
+                  type="text" 
                   label="Username"
-                  variant="underlined"
-                  color="primary"
                   ref={userRef}
-                  autoComplete="off"
                   {...userAttribs}
-                  isRequired
-                  classNames={{ label: "after:content-['']" }}
-               />
-
+                  classNames={{ label: "after:content-['']" }} 
+               /> 
                <Input
+                  {...inputAttribs}
                   isInvalid={errMsg ? true : false}
                   errorMessage={errMsg}
-                  size="lg"
                   type={isVisible ? "text" : "password"}
                   label="Password"
-                  variant="underlined"
-                  color="primary"
-                  autoComplete="off"
                   onChange={(e) => setPwd(e.target.value)}
                   value={pwd}
-                  isRequired
                   classNames={{ label: "after:content-['']" }}
                   endContent={
                      <button className="focus:outline-none" type="button" onClick={() => setIsVisible(!isVisible)}>
@@ -105,13 +97,11 @@ const Login: FC = () => {
                         )}
                      </button>
                   }
-               />
-
+               /> 
                <Checkbox className="mt-1 mb-[100px]" onChange={toggleCheck} isSelected={check}>
                   <span className="text-sm">Keep me logged in</span>
-               </Checkbox>
-
-               <Button color="primary" fullWidth isLoading={isLoading} variant="ghost" size="lg" radius="lg" type="submit" className="font-semibold">
+               </Checkbox> 
+               <Button {...btnAttribs} fullWidth isLoading={isLoading} type="submit" >
                   Sign In
                </Button>
             </form>

@@ -12,7 +12,7 @@ const PersistLogin = () => {
    const [isLoading, setIsLoading] = useState(true);
    const token = useSelector(selectCurrentToken);
    const [persist] = useLocalStorage("persist", false);
-   const [trigger] = refreshSlice.endpoints.refresh.useLazyQuery();
+   const [trigger] = refreshSlice.endpoints.refresh.useMutation();
    const dispatch = useAppDispatch();
    const navigate = useNavigate();
 
